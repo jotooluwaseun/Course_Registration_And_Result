@@ -1,0 +1,47 @@
+{% extends "base.html" %} {% load static %} {% block content %} {% include 'navbar.html' %}
+
+<title>{% block title %} Upload {% endblock title %}</title>
+
+<section class="container">
+  <div class="row">
+    <div class="p-5">
+      <h2 class="fw-bold">Profile Update</h2>
+      <div class="p-1">
+        <br />
+        <a href="{% url 'export-course-reg' %}">Export Course Registrations</a>
+        <span> | </span>
+        <a href="{% url 'logout' %}">Logout</a>
+
+        <h4 class="fw-bold text-muted">
+          Please follow the below instructions strictly
+        </h4>
+        <div class="ps-5 py-3">
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <ol>
+              <li>
+                Click on "Export Course Resgistration" to download the students
+                registered courses.
+              </li>
+              <li>
+                Update the downloaded CSV file with student examination scores.
+              </li>
+              <li>Click on choose file to select the update CSV file.</li>
+              <li>Click on "Upload" button to upload the information.</li>
+            </ol>
+            <input class="btn fw-bold form-control" type="file" name="file" />
+            <p class="fw-bold text-muted">ONLY accepts CSV files</p>
+            <button
+              class="btn fw-bold"
+              style="background-color: #3f00ff; color: white"
+              type="submit"
+            >
+              Upload
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

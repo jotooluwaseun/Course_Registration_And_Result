@@ -1,0 +1,18 @@
+{% if messages %}
+{% for message in messages %}
+
+{% if message.tags == 'success' %}
+<script>swal("Successful", "{{message}}", "success");</script>
+
+{% elif message.tags == 'info' %}
+<script>swal("Information", "{{message}}", "info");</script>
+
+{% elif message.tags == 'warning' %}
+<script>swal("Warning", "{{message}}", "warning");</script>
+
+{% elif message.tags == 'error' %}
+<script>swal("An error has occurred", "{{message}}", "error");</script>
+
+{% endif %}
+{% endfor %}
+{% endif %}

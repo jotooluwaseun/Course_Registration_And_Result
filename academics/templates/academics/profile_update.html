@@ -1,0 +1,72 @@
+{% extends "base.html" %} {% load static %} {% block content %} {% include 'navbar.html' %}
+
+<title>{% block title %} Profile Update {% endblock title %}</title>
+
+<section class="container">
+  <div class="row">
+    <div class="p-5">
+      <h2 class="fw-bold">Profile Update</h2>
+      <div class="p-3">
+        <form
+          method="post"
+          action="{% url 'profile-update' %}"
+          enctype="multipart/form-data"
+        >
+          {% csrf_token %}
+
+          <label>Matric No.</label>
+          <input
+            class="form-control"
+            type="text"
+            name="matric_no"
+            value=""
+            required
+          />
+          <br />
+
+          <label>Date of Admission</label>
+          <input
+            class="form-control"
+            type="date"
+            name="entry_date"
+            value=""
+            required
+          />
+          <br />
+
+          <label>Date of Birth</label>
+          <input
+            class="form-control"
+            type="date"
+            name="dob"
+            value=""
+            required
+          />
+          <br />
+
+          <label>Gender</label>
+          <select class="form-control" name="gender" required>
+            <option selected>--Select--</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </select>
+
+          <br />
+          <div class="d-grid gap-2">
+            <button
+              class="btn fw-bold"
+              style="background-color: #3f00ff; color: white"
+              type="submit"
+            >
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <br />
+    </div>
+  </div>
+</section>
+{% endblock content %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %} {% load static %} {% block content %} {% include
+'navbar.html' %}
+
+<title>{% block title %} Home {% endblock title %}</title>
+
+<section class="container">
+  <div class="p-5">
+    <br />
+    <h2 class="fw-bold">Welcome {{ request.user.first_name }}</h2>
+    <a href="{% url 'view-course' %}">Course Registration</a>
+    <span> | </span>
+    <a href="{% url 'generate-result' %}">Result Checker</a>
+    <span> | </span>
+    <a href="{% url 'logout' %}">Logout</a>
+  </div>
+
+  <div class="p-5">
+    <p>
+      Welcome to Ajayi Crowther University, Oyo where we raise Godly
+      intellectuals, who proceed to be agents of great positive change and
+      transformation in their immediate environment, the nation in the world as
+      a whole. We emphasize the fear of God, sound academic development,
+      excellent character formation, hardwork, diligence and entrepreneurship.
+    </p>
+    <p>
+      The Vision of Ajayi Crowther University is to be a top-class institution
+      in the pursuit of knowledge and scholarship through teaching, learning,
+      research and exemplary service to humanity.
+    </p>
+    <p>
+      Our Vision and Mission, as a Christian University, are founded on the
+      Protestant ethics of hardwork, justice, truth and honour and these virtues
+      are being reflected in the teaching culture at the University.
+    </p>
+  </div>
+</section>
+{% endblock content %}

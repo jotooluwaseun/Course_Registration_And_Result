@@ -1,0 +1,115 @@
+{% extends "base.html" %} {% load static %} {% block content %} {% include 'navbar.html' %}
+
+<title>
+    {% block title %} Course Registration {% endblock title %}
+</title>
+
+<section class="container">
+    <div class="row">
+
+        <div class="p-5">
+            <br />
+            <h2 class="fw-bold">Course Registration</h2>
+            <a href="{% url 'view-course' %}">Course Registration</a>
+            <span> | </span>
+            <a href="{% url 'generate-result' %}">Result Checker</a>
+            <span> | </span>
+            <a href="{% url 'logout' %}">Logout</a>
+        </div>
+
+        <div class="p-3">
+            <form method="POST" action="{% url 'view-course' %}">
+                {% csrf_token %}        
+                <label>Level and Semester</label>
+                <select name="level_semester" class="form-select form-select-md mb-3" aria-label="">
+                    <option selected>-- Select --</option>
+                    {% if check_level == Null and check_semester == Null %}
+                    <option>1st Semester - 300L</a></option>            
+                    <option>2nd Semester - 300L</option>
+                    <option>------</option>          
+                    <option>1st Semester - 400L</option>
+                    <option>2nd Semester - 400L</option>
+                    <!-- <option>------</option>
+                    <option>1st Semester - 500L</option>
+                    <option>2nd Semester - 500L</option>    -->
+        
+                    {% elif check_level == '300' and check_semester == 'First' %}
+                    <option>2nd Semester - 300L</option>
+                    <option>------</option>          
+                    <option>1st Semester - 400L</option>
+                    <option>2nd Semester - 400L</option>
+                    <!-- <option>------</option>
+                    <option>1st Semester - 500L</option>
+                    <option>2nd Semester - 500L</option>    -->
+        
+                    {% elif check_level == '300' and check_semester == 'Second' %}
+                    <option>1st Semester - 400L</option>
+                    <option>2nd Semester - 400L</option>
+                    <!-- <option>------</option>
+                    <option>1st Semester - 500L</option>
+                    <option>2nd Semester - 500L</option>    -->
+        
+                    {% elif check_level == '400' and check_semester == 'First' %}
+                    <option>2nd Semester - 400L</option>
+                    <!-- <option>------</option>
+                    <option>1st Semester - 500L</option>
+                    <option>2nd Semester - 500L</option>    -->            
+        
+                    {% endif %}
+                </select>       
+               <div class="d-grid gap-2 ">
+                <button class="btn fw-bold" style="background-color: #3F00FF; color: white;" type="submit">Load</button>
+               </div>
+            </form>
+        </div>
+
+        <div class="p-3 table-responsive">
+            <table class="table" id="course">
+                <thread>
+                    <tr>
+                        <th scope="col">Course Code</th>
+                        <th scope="col">Course Title</th>
+                        <th scope="col" class="text-center">Status</th>
+                        <th scope="col" class="text-center">Credits</th>
+                        <th scope="col">Lecturer</th>                
+                        <th scope="col" class="text-center">Select</th>
+                        <!--<input type="checkbox" onclick='selects()' onblur='deSelect()' value="Select All">-->             
+                    </tr>
+                </thread>        
+                
+                {% for course in all_courses %}        
+                <tr>         
+                    <td scope="col" name="course_code">{{ course.code }}</td>
+                    <td scope="col">{{ course.title }}</td>
+                    <td scope="col" class="text-center">{{ course.status }}</td>
+                    <td scope="col" class="text-center">{{ course.credits}}</td>
+                    <td scope="col">{{ course.lecturer }}</td>            
+                    <td scope="col" class="text-center">
+                        {% if course.selected %}
+                        <input type="checkbox" name="chk" value="{{ course.id }}" checked="checked">
+                        {% else %}
+                        <input type="checkbox" name="chk" value="{{ course.id }}">
+                        {% endif %}            
+                    </td>             
+                </tr>        
+                {% endfor %}
+                <tr>
+                    <td scope="col" class="fw-bold">Total</td>
+                    <td scope="col"></td>
+                    <td scope="col"></td>            
+                    <td scope="col" class="text-center fw-bold">{{ total_credits }}</td>            
+                    <td scope="col"></td>
+                    <td scope="col"></td>
+                </tr>
+            </table>
+            <form method="POST" action="{% url 'register-course' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button class="btn fw-bold" style="background-color: #3F00FF; color: white;" type="submit">Register</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

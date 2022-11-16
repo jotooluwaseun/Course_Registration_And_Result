@@ -1,0 +1,20 @@
+{% load static %} {% block content %}
+
+<section>
+  <nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'home' %}">
+        <img
+          src="{% static 'images/Logo2.png' %}"
+          alt=""
+          width="30"
+          height="24"
+          class="d-inline-block align-text-top"
+        />
+        <small class="fw-bold">Ajayi Crowther University, Oyo</small>
+      </a>
+    </div>
+  </nav>
+</section>
+
+{% endblock %}

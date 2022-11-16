@@ -1,0 +1,47 @@
+{% extends "base.html" %} {% load static %} {% block content %} {% include 'navbar.html' %}
+
+<title>{% block title %} Register {% endblock title %}</title>
+
+<section class="container">
+  <div class="d-sm-flex align-items-center justify-content-between p-5">
+    <div class="col align-text-center">
+      <img
+        src="{% static 'images/login.jpg' %}"
+        alt="Login"
+        class="img-fluid"
+      />
+    </div>
+
+    <div class="col align-text-center">
+      <form method="post" action="{% url 'register' %}">
+        {% csrf_token %} {% for field in form %}
+        <div class="py-1">
+          {{ field }} {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+          {% endfor %}
+        </div>
+        {% endfor %}
+        <!-- Submit Button -->
+        <div class="py-1">
+          <input
+            class="btn btn-"
+            type="submit"
+            value="Register"
+            style="background-color: #3f00ff; color: white"
+          />
+        </div>
+      </form>
+
+      <br />
+      <p>
+        Please click
+        <span class="fw-bold" style="color: #3f00ff"
+          ><a href="{% url 'login' %}">Login</a></span
+        >
+        if you have already created an account.
+      </p>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

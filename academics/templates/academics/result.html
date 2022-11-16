@@ -1,0 +1,149 @@
+{% extends "base.html" %} {% load static %} {% block content %} {% include 'navbar.html' %}
+
+<title>
+    {% block title %} Result {% endblock title %}
+</title>
+
+<section class="container">
+    <div class="row">
+        <div class="p-5">
+            <br />
+            <h2 class="fw-bold">Semester Results</h2>
+            <a href="{% url 'view-course' %}">Course Registration</a>
+            <span> | </span>
+            <a href="{% url 'generate-result' %}">Result Checker</a>
+            <span> | </span>
+            <a href="{% url 'logout' %}">Logout</a>  
+        </div>
+    
+        <div class="p-3">
+            <form method="POST" action="{% url 'generate-result' %}">
+                {% csrf_token %}        
+                <label>Level and Semester</label>
+                <select name="level_semester" class="form-select form-select-md mb-3" aria-label="">
+                    <option selected>-- Select --</option>                    
+                    <option>1st Semester - 300L</a></option>            
+                    <option>2nd Semester - 300L</option>
+                    <option>------</option>          
+                    <option>1st Semester - 400L</option>
+                    <option>2nd Semester - 400L</option>                    
+                </select>        
+                <div class="d-grid gap-2 ">
+                    <button class="btn fw-bold" style="background-color: #3F00FF; color: white;" type="submit">Check</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="">
+            {% for student in template_students %}
+            <h6 class="fw-bold text-muted">{{ student.first_name|upper }} {{ student.last_name|upper }}</h6>
+            <h6 class="fw-bold text-muted">{{ student.matric_no|upper }}</h6>
+            <h6 class="fw-bold text-muted">COMPUTER SCIENCE</h6>
+            <h6 class="fw-bold text-muted">FACULTY OF NATURAL SCIENCES</h6>
+            <h6 class="fw-bold text-muted">{{ level_semester2|upper }}</h6>
+            {% endfor %}
+        </div>
+        
+        <div class="p-3 table-responsive">
+            <table class="table" id="course">
+                <thread>
+                    <tr>
+                        <th scope="col">Course Code</th>
+                        <th scope="col">Course Title</th>                        
+                        <th scope="col" class="text-center">Credits</th>
+                        <th scope="col" class="text-center">Score</th>                
+                        <th scope="col" class="text-center">Grade</th>                        
+                    </tr>
+                </thread>       
+                              
+                {% for result in result_courses21 %}        
+                <tr>         
+                    <td scope="col" name="course_code">{{ result.course.code }}</td>
+                    <td scope="col">{{ result.course.title }}</td>                    
+                    <td scope="col" class="text-center">{{ result.course.credits}}</td>
+                    <td scope="col" class="text-center">{{ result.exam_score }}</td>
+
+                    {% if result.exam_score >= 70 %}
+                    <td scope="col" class="text-center">A</td>
+                    {% elif result.exam_score >= 60 %}
+                    <td scope="col" class="text-center">B</td>
+                    {% elif result.exam_score >= 50 %}
+                    <td scope="col" class="text-center">C</td>
+                    {% elif result.exam_score >= 40 %}
+                    <td scope="col" class="text-center">D</td>
+                    {% else %}
+                    <td scope="col" class="text-center">F</td>
+                    {% endif %}       
+              </tr>        
+                {% endfor %}
+            </table>          
+    </div>
+
+    <div class="row p-3">
+
+        <div class="col">
+            <h6 class="fw-bold text-muted ps-1">SUMMARY</h6>
+        <table class="table">
+            <thread>
+                <tr>
+                    <th scope="col" class="fw-bold text-muted">Total Credits</th>
+                    <td scope="col" class="fw-bold text-muted">{{ total_semester_credits2 }}</td>                                               
+                </tr>
+                <tr>
+                    <th scope="col" class="fw-bold text-muted">Total Points</th>
+                    <td scope="col" class="fw-bold text-muted">{{ total_semester_grade_point2 }}</td>                  
+                </tr>
+                <tr>
+                    <th scope="col" class="fw-bold text-muted">Last Grade Point Average</th>
+                    <td scope="col" class="fw-bold text-muted">{{ pgpa }}</td>                  
+                </tr>
+                <tr>
+                    <th scope="col" class="fw-bold text-muted">Current Grade Point Average</th>                    
+                    <td scope="col" class="fw-bold text-muted">{{ gpa2 }}</td>                    
+                </tr>               
+            </thread>
+        </table>
+        </div>        
+    </div>
+
+    {% if final is none %}
+    {% else %}
+    <div class="row">
+        <div class="col">
+            <h6>CUMMULATIVE</h6>
+        <table class="table">
+            <thread>
+                <tr>
+                    <th scope="col">Cummulative CGPA</th>
+                    <td scope="col">{{ cgpa2 }}</td>
+                </tr>
+                <tr>
+                    <th scope="col">Grade Description</th>
+                    {% if cgpa2 >= 4.50 %}
+                    <td scope="col">First Class</td>
+                    {% elif cgpa2 >= 3.50 %}
+                    <td scope="col">Second Class (Upper Division)</td>
+                    {% elif cgpa2 >= 2.40 %}
+                    <td scope="col">Second Class (Lower Division)</td>
+                    {% elif cgpa2 >= 1.50 %}
+                    <td scope="col">Third Class</td>
+                    {% else %}
+                    <td scope="col">Fail</td>
+                    {% endif %}
+                </tr>              
+            </thread>
+        </table>
+        </div>
+    </div>   
+    {% endif %}
+    
+    <div class="row p-1">
+        <form method="POST" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <button class="btn fw-bold" style="background-color: #3F00FF; color: white;" type="submit">Print</button>
+            </div>
+        </form> 
+    </div>
+</section>
+{% endblock content %}
